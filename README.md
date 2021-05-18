@@ -1,24 +1,81 @@
-# README
+# アプリ名
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+caloiremate
 
-Things you may want to cover:
+# 概要
 
-* Ruby version
+■ユーザーアカウントの登録
 
-* System dependencies
+■何を食べたのか記録する
 
-* Configuration
+■他のユーザーからコメントを反映させる
 
-* Database creation
+■週・月のカロリーの目標を設定する
 
-* Database initialization
+# 制作背景（意図）
 
-* How to run the test suite
+自分が増量中にカロリーの目標を設定して、食べた物のカロリーが自動で反映されるアプリケーションが欲しかった。
 
-* Services (job queues, cache servers, search engines, etc.)
+# 実装内容
 
-* Deployment instructions
+■ユーザー管理機能
 
-* ...
+■コメント投稿機能
+
+■目標設定機能
+
+■投稿機能
+
+
+# DB設計
+
+## users
+
+| Column             | Type                | Options                 |
+|--------------------|---------------------|-------------------------|
+| name               | string              | null: false             |
+| email              | string              | null: false             |
+
+### Association
+
+* has_many :posts
+* has_many :comments
+- has_one  :target
+
+## posts
+
+| Column             | Type                | Options                 |
+|--------------------|---------------------|-------------------------|
+| name               | string              | null: false             |
+| text               | string              | null: false             |
+| calorie            | string              | null: false             |
+| image              | text                | null: false             |
+| user               | references          | foreign_key: true       |
+
+### Association
+
+* has_many   :comments
+- belongs_to :user
+
+
+## targets
+
+| Column             | Type                | Options                 |
+|--------------------|---------------------|-------------------------|
+| weekly             | string              | null: false             |
+| one_month          | string              | null: false             |
+| user               | references          | foreign_key: true       |
+
+- has_one  :user
+
+## comments
+
+| Column             | Type                | Options                 |
+|--------------------|---------------------|-------------------------|
+| comment_text       | string              | null: false             |
+| user               | references          | foreign_key: true       |
+| post               | references          | foreign_key: true       |
+
+### Association
+
+- belongs_to :user
